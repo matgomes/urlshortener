@@ -22,6 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     url(r'urlshortener/', include('urlshortener.urls')),
-    url(r'^u/(?P<alias_key>\w+)/$', views.redr),
+    url(r'^u/(?P<alias_key>\w+)/$', apiViews.redr),
     url(r'^api/', include('api.urls'))
 ]

@@ -51,33 +51,3 @@ def index(request, error = False):
                     return render(request, 'urlshortener/result.html', {'link':link})
 
     return render(request, 'urlshortener/index.html', {'form':form, 'entry':top_entry})
-
-
-def redr(request, alias_key):
-    key = alias_key
-    link = urls.objects.get(alias = key)
-    link.count += 1
-    link.save()
-    return HttpResponseRedirect(link.original)
-
-class shortenerListView(APIView):
-    serializer_class = shortenerSerializer
-
-    def get(self, request, format=None):
-        serializer = self.serializer_class(urls.objects.all(), many = True)
-        return Response(serializer.data)
-
-class shortenerView(APIView):
-    def get(self, request, pk, format = None):
-        print(pk)
-        print('teste')
-        custom = urls.objects.get(alias = pk).alias
-        serializer = shortenerSerializer(custom)
-        return Response(serializer.data)
-
-class topEntryListView(APIView):
-    serializer_class = shortenerSerializer
-
-    def get(self, request, format=None):
-        serializer = self.serializer_class(urls.objects.order_by('-count')[:10], many = True)
-        return Response(serializer.data)

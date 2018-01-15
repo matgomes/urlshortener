@@ -9,6 +9,7 @@ from rest_framework import status
 import shortuuid
 from urlshortener.models import urls
 from rest_framework.response import Response
+from django.http import HttpResponse, Http404, HttpResponseRedirect, HttpResponsePermanentRedirect
 
 base_url = 'http://localhost:8000/u/'
 
@@ -27,28 +28,9 @@ class topEntryListView(APIView):
         serializer = self.serializer_class(urls.objects.order_by('-count')[:10], many = True)
         return Response(serializer.data)
 
-class createLink(APIView):
-    # serializer_class = shortenerSerializer
-
-    def get(self, request, format=None):
-        serializer = shortenerSerializer(data=request.data)
-        if data['alias']:
-            alias = data['alias'].lower()
-            data['link'] = base_url + str(alias)
-
-        if serializer.is_valid():
-            original = data['original'].lower()
-            serializer.save()
-            return Response(serializer.data)
-        else:
-             return Response({'message':'FORBIDEN'}, status=status.HTTP_409_CONFLICT)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 @csrf_exempt
-def teste(request):
+def urlPut(request):
 
     if request.method == 'PUT':
         data = JSONParser().parse(request)
@@ -101,5 +83,17 @@ def teste(request):
                         serializer.save()
                         return JsonResponse(serializer.data)
 
-
         return JsonResponse(serializer.errors, status=400)
+
+def redr(request, alias_key):
+    if request.method == 'GET':
+        print(alias_key)
+        try:
+            alias = urls.objects.get(alias = alias_key)
+            link = alias.original
+            print(link)
+            return HttpResponseRedirect(link)
+        except:
+            error = { "err_code" : "002",
+                      "description" : "SHORTENED URL NOT FOUND" }
+            return JsonResponse(error)

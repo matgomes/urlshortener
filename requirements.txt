@@ -1,0 +1,4 @@
+request==0.0.22
+django==2.0.1
+shortuuid==0.5.0
+djangorestframework==3.7.7
