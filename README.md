@@ -19,6 +19,9 @@ Encurtador de links usando django, sqlite e django-rest-framework.
 >>$ python manage.py makemigrations
 >>>$ python manage.py migrate
 
+#### Superuser
+>$ python manage.py createsuperuser
+
 #### Runserver
 >$ python manage.py runserver
 
