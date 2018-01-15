@@ -34,7 +34,6 @@ def urlPut(request):
 
     if request.method == 'PUT':
         data = JSONParser().parse(request)
-        print(data)
 
         if 'alias' in data: # Chamada com custom alias
             serializer = shortenerSerializer(data=data)
@@ -63,7 +62,6 @@ def urlPut(request):
 
             if serializer.is_valid():
                 original = data['original'].lower()
-                print('teste')
                 if urls.objects.filter(custom = False).filter(original = original): # Caso link original já tenha sido submetido
                     data = urls.objects.filter(original = original).values()
                     print(data)
@@ -92,10 +90,8 @@ def redr(request, alias_key):
             link = alias.original
             alias.count +=1
             alias.save()
-            print(link)
             return HttpResponseRedirect(link)
         except:
-            print('error')
             error = { "err_code" : "002",
                       "description" : "SHORTENED URL NOT FOUND" }
             return JsonResponse(error)
