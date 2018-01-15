@@ -87,13 +87,15 @@ def urlPut(request):
 
 def redr(request, alias_key):
     if request.method == 'GET':
-        print(alias_key)
         try:
             alias = urls.objects.get(alias = alias_key)
             link = alias.original
+            alias.count +=1
+            alias.save()
             print(link)
             return HttpResponseRedirect(link)
         except:
+            print('error')
             error = { "err_code" : "002",
                       "description" : "SHORTENED URL NOT FOUND" }
             return JsonResponse(error)
