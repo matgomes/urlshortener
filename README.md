@@ -34,7 +34,7 @@ Encurtador de links usando django, sqlite e django-rest-framework.
 >$ http put  http://127.0.0.1:8000/api/create/ original=http://bemobi.com alias=bemobi
 
 #### Retrieve URL
->$ http get http://127.0.0.1:8000/api/u/bemobi
+>$ http get http://127.0.0.1:8000/u/bemobi
 
 #### Dez URLs mais acessadas
 >$ http get http://127.0.0.1:8000/api/u/top_entry
