@@ -5,6 +5,7 @@ from xxhash import xxh32_hexdigest
 
 from api.exceptions import ExistingAliasApiException, AliasNotFoundApiException
 from api.models import Url
+from api.serializers import UrlSerializer
 
 
 def validate_url(original_url):
@@ -76,3 +77,11 @@ class UrlRetrieve:
             raise AliasNotFoundApiException()
 
         return url
+
+
+def get_top10():
+
+    urls = Url.objects.all().order_by("-hits")[:10]
+    serializer = UrlSerializer(urls, many=True)
+
+    return serializer.data

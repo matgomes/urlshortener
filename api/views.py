@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.exceptions import MissingParamApiException
-from api.services import UrlShorten, UrlRetrieve
+from api.services import UrlShorten, UrlRetrieve, get_top10
 
 
 @api_view(['PUT'])
@@ -26,4 +26,10 @@ def shorten(request):
 def retrieve(request, alias):
 
     return redirect(UrlRetrieve(alias).retrieve())
+
+
+@api_view(['GET'])
+def top10(request):
+
+    return Response(get_top10(), status.HTTP_200_OK)
 
