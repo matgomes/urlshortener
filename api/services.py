@@ -55,13 +55,12 @@ class UrlShorten:
         logger.info("Shortening url '{}' with custom alias '{}'".format(self.original_url, self.alias))
 
         self.alias = self.alias.replace(" ", "")
-        existing, created = Url.objects.get_or_create(original_url=self.original_url, alias=self.alias)
+        _, created = Url.objects.get_or_create(original_url=self.original_url, alias=self.alias)
 
-        if created:
-            return self
-
-        if existing:
+        if not created:
             raise ExistingAliasApiException(self.alias)
+
+        return self
 
     def get_response(self):
         return {
