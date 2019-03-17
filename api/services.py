@@ -1,7 +1,6 @@
 import logging
 from datetime import datetime
 
-from django.db.models import F
 from xxhash import xxh32_hexdigest
 
 from api.exceptions import ExistingAliasApiException, AliasNotFoundApiException
@@ -85,17 +84,15 @@ class UrlRetrieve:
         logger.info("Retrieving original url for alias '{}'".format(self.alias))
 
         url = self.get_url_or_raise()
-        url.update(hits=F("hits") + 1)
-        return url.first().original_url
+        url.hit()
+        return url.original_url
 
     def get_url_or_raise(self):
 
-        url = Url.objects.filter(alias=self.alias)
-
-        if not url:
+        try:
+            return Url.objects.get(alias=self.alias)
+        except Url.DoesNotExist:
             raise AliasNotFoundApiException(self.alias)
-
-        return url
 
 
 class UrlList:

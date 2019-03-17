@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import F
 
 
 class Url(models.Model):
@@ -10,3 +11,7 @@ class Url(models.Model):
 
     class Meta:
         db_table = 'Url'
+
+    def hit(self):
+        self.hits = F('hits') + 1
+        self.save()
