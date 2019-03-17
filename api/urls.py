@@ -5,5 +5,5 @@ from api import views
 urlpatterns = [
     path("shorten", views.shorten, name="shorten"),
     path("retrieve/<str:alias>", views.retrieve, name="retrieve"),
-    path("top10", views.top10, name="top10"),
+    path("most_accessed", views.most_accessed, name="most_accessed"),
 ]

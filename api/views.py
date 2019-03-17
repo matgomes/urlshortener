@@ -1,10 +1,14 @@
+import logging
+
 from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from api.exceptions import MissingParamApiException
-from api.services import UrlShorten, UrlRetrieve, get_top10
+from api.services import UrlShorten, UrlRetrieve, UrlList
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['PUT'])
@@ -25,11 +29,20 @@ def shorten(request):
 @api_view(['GET'])
 def retrieve(request, alias):
 
-    return redirect(UrlRetrieve(alias).retrieve())
+    original_url = UrlRetrieve(alias).retrieve()
+
+    logger.info("Redirecting alias '{}' to original url '{}'".format(alias, original_url))
+
+    return redirect(original_url)
 
 
 @api_view(['GET'])
-def top10(request):
+def most_accessed(request):
 
-    return Response(get_top10(), status.HTTP_200_OK)
+    params = request.query_params
+    limit = params.get('limit')
+
+    service = UrlList(limit)
+
+    return Response(service.get_most_accessed_urls(), status.HTTP_200_OK)
 
