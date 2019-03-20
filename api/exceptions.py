@@ -3,7 +3,12 @@ import logging
 from rest_framework import status
 from rest_framework.exceptions import APIException
 
+from api.responses import ApiExceptionResponse
+from api.serializers import ExceptionDetailSerializer
+
 logger = logging.getLogger(__name__)
+
+serializer = ExceptionDetailSerializer
 
 
 class ExistingAliasApiException(APIException):
@@ -12,12 +17,12 @@ class ExistingAliasApiException(APIException):
 
         logger.warning("Custom alias '{}' already exists".format(alias))
 
+        response = ApiExceptionResponse(alias=alias,
+                                        err_code="001",
+                                        description="CUSTOM ALIAS ALREADY EXISTS")
+
         self.status_code = status.HTTP_400_BAD_REQUEST
-        self.detail = {
-            "alias": alias,
-            "err_code": "001",
-            "description": "CUSTOM ALIAS ALREADY EXISTS"
-        }
+        self.detail = serializer(response).data
 
 
 class AliasNotFoundApiException(APIException):
@@ -26,12 +31,12 @@ class AliasNotFoundApiException(APIException):
 
         logger.warning("Alias '{}' not found".format(alias))
 
+        response = ApiExceptionResponse(alias=alias,
+                                        err_code="002",
+                                        description="SHORTENED URL NOT FOUND")
+
         self.status_code = status.HTTP_404_NOT_FOUND
-        self.detail = {
-            "alias": alias,
-            "err_code": "002",
-            "description": "SHORTENED URL NOT FOUND"
-        }
+        self.detail = serializer(response).data
 
 
 class MissingParamApiException(APIException):
@@ -40,8 +45,8 @@ class MissingParamApiException(APIException):
 
         logger.warning("Missing query parameter '{}' on request".format(missing_param))
 
+        response = ApiExceptionResponse(err_code="003",
+                                        description="REQUIRED PARAMETER '{}' IS NOT PRESENT".format(missing_param))
+
         self.status_code = status.HTTP_400_BAD_REQUEST
-        self.detail = {
-            "err_code": "003",
-            "description": "Required String parameter '{}' is not present".format(missing_param)
-        }
+        self.detail = serializer(response).data

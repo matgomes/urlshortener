@@ -1,33 +1,18 @@
 import logging
-from datetime import datetime
 
 from xxhash import xxh32_hexdigest
 
 from api.exceptions import ExistingAliasApiException, AliasNotFoundApiException
 from api.models import Url
-from api.serializers import UrlSerializer
+from api.responses import UrlShortenResponse
+from api.serializers import UrlSerializer, UrlShortenResponseSerializer
 
 logger = logging.getLogger(__name__)
 
 
-def validate_url(original_url):
-    url = original_url.replace(" ", "").replace("www.", "")
-
-    if "//" not in url:
-        url = "http://" + url
-
-    return url
-
-
-def validate_limit(limit):
-
-    if isinstance(limit, str) and limit.isdigit():
-        return int(limit)
-
-    return 10
-
-
 class UrlShorten:
+
+    serializer = UrlShortenResponseSerializer
 
     def __init__(self, original_url, custom_alias, host, start_time):
         self.original_url = validate_url(original_url)
@@ -63,14 +48,10 @@ class UrlShorten:
         return self
 
     def get_response(self):
-        return {
-            "original_url": self.original_url,
-            "alias": self.alias,
-            "url": '{}/retrieve/{}'.format(self.host, self.alias),
-            "statistics": {
-                "time_taken": int((datetime.now() - self.start_time).total_seconds() * 1000)
-            }
-        }
+
+        response = UrlShortenResponse(self.original_url, self.alias, self.host, self.start_time)
+
+        return self.serializer(response).data
 
 
 class UrlRetrieve:
@@ -99,7 +80,6 @@ class UrlList:
     serializer = UrlSerializer
 
     def __init__(self, limit):
-
         self.limit = validate_limit(limit)
 
     def get_most_accessed_urls(self):
@@ -113,3 +93,19 @@ class UrlList:
 
         return self.serializer(urls, many=True).data
 
+
+def validate_url(original_url):
+    url = original_url.replace(" ", "").replace("www.", "")
+
+    if "//" not in url:
+        url = "http://" + url
+
+    return url
+
+
+def validate_limit(limit):
+    
+    if isinstance(limit, str) and limit.isdigit():
+        return int(limit)
+
+    return 10
