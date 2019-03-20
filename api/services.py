@@ -33,7 +33,7 @@ class UrlShorten:
         self.alias = xxh32_hexdigest(self.original_url)
         Url.objects.get_or_create(original_url=self.original_url, alias=self.alias)
 
-        return self
+        return self.get_response()
 
     def handle_shorten_with_custom_alias(self):
 
@@ -45,7 +45,7 @@ class UrlShorten:
         if not created:
             raise ExistingAliasApiException(self.alias)
 
-        return self
+        return self.get_response()
 
     def get_response(self):
 
@@ -71,6 +71,7 @@ class UrlRetrieve:
 
         try:
             return Url.objects.get(alias=self.alias)
+
         except Url.DoesNotExist:
             raise AliasNotFoundApiException(self.alias)
 
@@ -104,7 +105,6 @@ def validate_url(original_url):
 
 
 def validate_limit(limit):
-    
     if isinstance(limit, str) and limit.isdigit():
         return int(limit)
 

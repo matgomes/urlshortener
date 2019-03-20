@@ -21,9 +21,9 @@ def shorten(request):
     if not url:
         raise MissingParamApiException(missing_param='url')
 
-    service = UrlShorten(url, custom_alias, request.get_host(), request.start_time).shorten()
+    service = UrlShorten(url, custom_alias, request.get_host(), request.start_time)
 
-    return Response(service.get_response(), status.HTTP_201_CREATED)
+    return Response(service.shorten(), status.HTTP_201_CREATED)
 
 
 @api_view(['GET'])
