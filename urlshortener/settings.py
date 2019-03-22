@@ -1,4 +1,6 @@
+import logging
 import os
+import sys
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -117,6 +119,9 @@ LOGGING = {
         },
     },
 }
+
+if len(sys.argv) > 1 and sys.argv[1] == 'test':
+    logging.disable(logging.CRITICAL)
 
 LANGUAGE_CODE = 'en-us'
 
