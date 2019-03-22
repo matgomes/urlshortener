@@ -11,3 +11,7 @@ setup:
 		source venv/bin/activate; \
 		pip3 install -r requirements.txt; \
 	)
+
+.PHONY: test
+test:
+	./venv/bin/python3 manage.py test
