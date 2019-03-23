@@ -1,0 +1,48 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "array",
+  "title": "The Root Schema",
+  "items": {
+    "$id": "#/items",
+    "type": "object",
+    "title": "The Items Schema",
+    "required": [
+      "original_url",
+      "alias",
+      "hits"
+    ],
+    "properties": {
+      "original_url": {
+        "$id": "#/items/properties/original_url",
+        "type": "string",
+        "title": "The Original_url Schema",
+        "default": "",
+        "examples": [
+          "http://netvasco.com.br"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "alias": {
+        "$id": "#/items/properties/alias",
+        "type": "string",
+        "title": "The Alias Schema",
+        "default": "",
+        "examples": [
+          "vasco"
+        ],
+        "pattern": "^(.*)$"
+      },
+      "hits": {
+        "$id": "#/items/properties/hits",
+        "type": "integer",
+        "title": "The Hits Schema",
+        "default": 0,
+        "examples": [
+          73
+        ]
+      }
+    }
+  }
+}

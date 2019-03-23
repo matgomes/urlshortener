@@ -13,7 +13,7 @@ class UrlShortenTestCase(TestCase):
     def setUp(self):
         self.host = "http://host.com"
         self.start_time = datetime.now()
-        self.original_url = "http://teste.com"
+        self.original_url = "http://test.com"
         self.alias = "alias"
 
     def test_should_create_url_with_custom_alias(self):
@@ -61,7 +61,7 @@ class UrlShortenTestCase(TestCase):
 
     def test_should_remove_www(self):
 
-        url = "http://www.teste.com"
+        url = "http://www.test.com"
         expected_url = url.replace("www.", "")
 
         validated_url = validate_url(url)
@@ -70,7 +70,7 @@ class UrlShortenTestCase(TestCase):
 
     def test_should_add_http_if_empty_schema(self):
 
-        url = "teste.com"
+        url = "test.com"
         expected_url = "http://" + url
 
         validated_url = validate_url(url)
@@ -79,7 +79,7 @@ class UrlShortenTestCase(TestCase):
 
     def test_should_not_add_http_if_has_schema(self):
 
-        url = "https://teste.com"
+        url = "https://test.com"
 
         validated_url = validate_url(url)
 

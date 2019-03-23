@@ -7,7 +7,7 @@ from api.services import UrlList, validate_limit
 class UrlLimitTestCase(TestCase):
 
     def setUp(self):
-        self.original_url = "http://teste.com"
+        self.original_url = "http://test.com"
         self.alias = "alias"
 
     def test_should_get_10_most_accessed_urls_by_default(self):
