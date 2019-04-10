@@ -1,6 +1,6 @@
 ﻿## URLSHORTENER
 
-A simple url shortener made with Django REST Framework and Postgres.    
+A simple url shortener made with Django REST Framework, nginx, gunicorn and postgres.    
     
 This was my very first project, it was a challenge for an internship program.    
 Recently i revisited it and made some changes.  
@@ -16,16 +16,16 @@ https://github.com/docker/compose/releases/latest
 ## API  
 
 #### Shorten with generated alias    
-	curl -X PUT 'http://localhost:8000/shorten/github.com'  
+	curl -X PUT 'http://localhost/shorten/github.com'  
   
 #### Shorten with custom alias  
-	curl -X PUT 'http://localhost:8000/shorten/github.com?custom_alias=github'  
+	curl -X PUT 'http://localhost/shorten/github.com?custom_alias=github'  
 
 #### Retrieve URL  
-	curl -X GET -i 'http://localhost:8000/retrieve/github'  
+	curl -X GET -i 'http://localhost/retrieve/github'  
 
 #### 10 most accessed urls  
-	curl -X GET 'http://localhost:8000/most_accessed'  
+	curl -X GET 'http://localhost/most_accessed'  
 
 #### Most accessed urls with limit  
-	curl -X GET 'http://localhost:8000/most_accessed?limit=2'
+	curl -X GET 'http://localhost/most_accessed?limit=2'
