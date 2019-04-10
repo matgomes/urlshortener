@@ -1,52 +1,31 @@
-﻿# URLSHORTENER
+﻿## URLSHORTENER
 
-Encurtador de links usando django, sqlite e django-rest-framework.
+A simple url shortener made with Django REST Framework and Postgres.    
+    
+This was my very first project, it was a challenge for an internship program.    
+Recently i revisited it and made some changes.  
+Challenge source: https://github.com/bemobi/hire.me
 
-# SETUP
+## RUNNING
 
-#### Criando virtual environment
+Only docker compose is needed to run the project    
+https://github.com/docker/compose/releases/latest  
 
->$ conda create --name myenv
+	docker-compose up
 
-#### Ativando virtual environment
->$ activate myenv
+## API  
 
-#### Instalando requirements
->$ pip install -U -r requirements.txt
+#### Shorten with generated alias  
+	curl -X PUT 'http://localhost:8000/shorten?url=github.com'  
+  
+#### Shorten with custom alias  
+	curl -X PUT 'http://localhost:8000/shorten?url=github.com&custom_alias=github'  
 
-#### Migrations
->$ python manage.py migrate
->>$ python manage.py makemigrations
->>>$ python manage.py migrate
+#### Retrieve URL  
+	curl -X GET -i 'http://localhost:8000/retrieve/github'  
 
-#### Superuser
->$ python manage.py createsuperuser
+#### 10 most accessed urls  
+	curl -X GET 'http://localhost:8000/most_accessed'  
 
-#### Runserver
->$ python manage.py runserver
-
-# API
-
-#### Chamada sem alias
->$ http put  http://127.0.0.1:8000/api/create/ original=http://bemobi.com
-
-#### Chamada com custom alias
->$ http put  http://127.0.0.1:8000/api/create/ original=http://bemobi.com alias=bemobi
-
-#### Retrieve URL
->$ http get http://127.0.0.1:8000/u/bemobi
-
-#### Dez URLs mais acessadas
->$ http get http://127.0.0.1:8000/api/u/top_entry
-
-#### Client interface
->$ http get http://127.0.0.1:8000
-
-# Client
-Foi criada uma interface simples utilizando html e a biblioteca bulma.io
-
-# Diagrama de sequência
-![enter image description here](https://i.imgur.com/jb1oEJi.png)
-
-
-
+#### Most accessed urls with limit  
+	curl -X GET 'http://localhost:8000/most_accessed?limit=2'
