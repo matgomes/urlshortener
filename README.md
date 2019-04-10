@@ -15,11 +15,11 @@ https://github.com/docker/compose/releases/latest
 
 ## API  
 
-#### Shorten with generated alias  
-	curl -X PUT 'http://localhost:8000/shorten?url=github.com'  
+#### Shorten with generated alias    
+	curl -X PUT 'http://localhost:8000/shorten/github.com'  
   
 #### Shorten with custom alias  
-	curl -X PUT 'http://localhost:8000/shorten?url=github.com&custom_alias=github'  
+	curl -X PUT 'http://localhost:8000/shorten/github.com?custom_alias=github'  
 
 #### Retrieve URL  
 	curl -X GET -i 'http://localhost:8000/retrieve/github'  

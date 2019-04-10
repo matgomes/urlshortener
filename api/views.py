@@ -5,21 +5,15 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.exceptions import MissingParamApiException
 from api.services import UrlShorten, UrlRetrieve, UrlList
 
 logger = logging.getLogger(__name__)
 
 
 @api_view(['PUT'])
-def shorten(request):
+def shorten(request, url):
 
-    params = request.query_params
-    url = params.get('url')
-    custom_alias = params.get('custom_alias')
-
-    if not url:
-        raise MissingParamApiException(missing_param='url')
+    custom_alias = request.query_params.get('custom_alias')
 
     service = UrlShorten(url, custom_alias, request.get_host(), request.start_time)
 
@@ -39,8 +33,7 @@ def retrieve(request, alias):
 @api_view(['GET'])
 def most_accessed(request):
 
-    params = request.query_params
-    limit = params.get('limit')
+    limit = request.query_params.get('limit')
 
     service = UrlList(limit)
 

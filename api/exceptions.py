@@ -37,16 +37,3 @@ class AliasNotFoundApiException(APIException):
 
         self.status_code = status.HTTP_404_NOT_FOUND
         self.detail = serializer(response).data
-
-
-class MissingParamApiException(APIException):
-
-    def __init__(self, missing_param):
-
-        logger.warning("Missing query parameter '{}' on request".format(missing_param))
-
-        response = ApiExceptionResponse(err_code="003",
-                                        description="REQUIRED PARAMETER '{}' IS NOT PRESENT".format(missing_param))
-
-        self.status_code = status.HTTP_400_BAD_REQUEST
-        self.detail = serializer(response).data

@@ -1,5 +1,3 @@
-from collections import OrderedDict
-
 from rest_framework import serializers
 
 from api.models import Url
@@ -13,10 +11,6 @@ class UrlSerializer(serializers.ModelSerializer):
 
 
 class CustomSerializer(serializers.Serializer):
-
-    def to_representation(self, instance):
-        result = super(CustomSerializer, self).to_representation(instance)
-        return OrderedDict([(key, result[key]) for key in result if result[key] is not None])
 
     def update(self, instance, validated_data):
         pass

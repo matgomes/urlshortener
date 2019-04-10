@@ -16,25 +16,15 @@ class ShortenViewTestCase(TestCase):
         original_url = "http://test.com"
         alias = "alias"
 
-        request = self.factory.put("/shorten?url={}&custom_alias={}".format(original_url, alias))
+        request = self.factory.put("/shorten/{}?custom_alias={}".format(original_url, alias))
         request.start_time = datetime.now()  # mocking middleware
-        response = views.shorten(request)
+        response = views.shorten(request, url=original_url)
 
         response_data = response.data
 
         assert_valid_schema(response_data, "shorten_response.json")
         self.assertEquals(response.status_code, 201)
         self.assertEquals(response_data["alias"], alias)
-
-    def test_should_not_shorten_missing_param(self):
-        request = self.factory.put("/shorten")
-        response = views.shorten(request)
-
-        response_data = response.data
-
-        assert_valid_schema(response_data, "exception_response.json")
-        self.assertEquals(response.status_code, 400)
-        self.assertEquals(response_data["err_code"], "003")
 
     def test_should_not_shorten_existing_alias(self):
 
@@ -43,9 +33,9 @@ class ShortenViewTestCase(TestCase):
 
         Url(original_url=original_url, alias=alias).save()
 
-        request = self.factory.put("/shorten?url={}&custom_alias={}".format(original_url, alias))
+        request = self.factory.put("/shorten/{}?custom_alias={}".format(original_url, alias))
         request.start_time = datetime.now()  # mocking middleware
-        response = views.shorten(request)
+        response = views.shorten(request, url=original_url)
 
         response_data = response.data
 
