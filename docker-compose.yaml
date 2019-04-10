@@ -1,0 +1,18 @@
+version: '2'
+services: 
+  db:
+    image: postgres
+  shortener:
+    build: 
+      context: .
+    image: shortener
+    volumes: 
+      - .:/usr/src/shortener
+    ports: 
+      - '8000:8000'
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; 
+                      python3 manage.py test &&
+                      python3 manage.py migrate &&
+                      python3 manage.py runserver 0.0.0.0:8000' 
+    depends_on:
+      - db

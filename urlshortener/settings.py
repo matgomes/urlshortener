@@ -54,8 +54,11 @@ WSGI_APPLICATION = 'urlshortener.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432
     }
 }
 
@@ -74,6 +77,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOG_PATH = "/var/log/django"
+
+if not os.path.exists(LOG_PATH):
+    os.makedirs(LOG_PATH)
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -90,7 +98,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': 'urlshortener.log',
+            'filename': LOG_PATH + '/urlshortener.log',
             'when': 'D',
             'interval': 1,
             'backupCount': 10,

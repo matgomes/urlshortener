@@ -102,8 +102,8 @@ ENV/
 
 .idea
 
-*/migrations
-
 db.sqlite3
 
 *.log*
+
+.vscode
