@@ -1,0 +1,64 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "original_url",
+    "url",
+    "alias",
+    "statistics"
+  ],
+  "properties": {
+    "original_url": {
+      "$id": "#/properties/original_url",
+      "type": "string",
+      "title": "The Original_url Schema",
+      "default": "",
+      "examples": [
+        "http://github.com"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "url": {
+      "$id": "#/properties/url",
+      "type": "string",
+      "title": "The Url Schema",
+      "default": "",
+      "examples": [
+        "localhost:8000/retrieve/github"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "alias": {
+      "$id": "#/properties/alias",
+      "type": "string",
+      "title": "The Alias Schema",
+      "default": "",
+      "examples": [
+        "github"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "statistics": {
+      "$id": "#/properties/statistics",
+      "type": "object",
+      "title": "The Statistics Schema",
+      "required": [
+        "time_taken"
+      ],
+      "properties": {
+        "time_taken": {
+          "$id": "#/properties/statistics/properties/time_taken",
+          "type": "integer",
+          "title": "The Time_taken Schema",
+          "default": 0,
+          "examples": [
+            17
+          ]
+        }
+      }
+    }
+  }
+}

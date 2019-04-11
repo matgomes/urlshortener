@@ -1,0 +1,43 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/root.json",
+  "type": "object",
+  "title": "The Root Schema",
+  "properties": {
+    "alias": {
+      "$id": "#/properties/alias",
+      "type": "string",
+      "title": "The Alias Schema",
+      "default": "",
+      "examples": [
+        "github"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "err_code": {
+      "$id": "#/properties/err_code",
+      "type": "string",
+      "title": "The Err_code Schema",
+      "default": "",
+      "examples": [
+        "001"
+      ],
+      "pattern": "^(.*)$"
+    },
+    "description": {
+      "$id": "#/properties/description",
+      "type": "string",
+      "title": "The Description Schema",
+      "default": "",
+      "examples": [
+        "CUSTOM ALIAS ALREADY EXISTS"
+      ],
+      "pattern": "^(.*)$"
+    }
+  },
+  "required": [
+    "err_code",
+    "description"
+  ]
+}

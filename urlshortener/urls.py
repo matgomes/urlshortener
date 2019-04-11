@@ -1,7 +1,5 @@
-from django.conf.urls import url
-from django.contrib import admin
-from urlshortener import views
+from django.urls import path, include
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    path('', include('api.urls'))
 ]

@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres:11-alpine
+    volumes:
+      - shortener-data:/var/lib/postgresql/data/
+
+  shortener:
+    build: 
+      context: .
+    image: shortener
+    volumes: 
+      - .:/usr/src/shortener
+    expose:
+      - 8000
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done;
+                      python3 manage.py test &&
+                      python3 manage.py migrate &&
+                      gunicorn urlshortener.wsgi:application --bind 0.0.0.0:8000'
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - shortener
+
+
+volumes:
+  shortener-data:
