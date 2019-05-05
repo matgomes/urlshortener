@@ -28,7 +28,7 @@ class UrlShorten:
 
     def handle_shorten(self):
 
-        logger.info("Shortening url '{}' with generated alias".format(self.original_url, self.alias))
+        logger.info("Shortening url '{}' with generated alias".format(self.original_url))
 
         self.alias = xxh32_hexdigest(self.original_url)
         Url.objects.get_or_create(original_url=self.original_url, alias=self.alias)

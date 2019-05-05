@@ -2,6 +2,8 @@ import logging
 import os
 import sys
 
+test_env = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'd09qn6&^!@gj+hsz%#=r($kmc9vk2_6gdyq&#p_zlo%vi2wg_i'
@@ -79,7 +81,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOG_PATH = "/var/log/django"
 
-if not os.path.exists(LOG_PATH):
+if not os.path.exists(LOG_PATH) and not test_env:
     os.makedirs(LOG_PATH)
 
 LOGGING = {
@@ -128,8 +130,17 @@ LOGGING = {
     },
 }
 
-if len(sys.argv) > 1 and sys.argv[1] == 'test':
+if test_env:
     logging.disable(logging.CRITICAL)
+
+    LOGGING = {
+
+    }
+
+    DATABASES['default'] = {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
